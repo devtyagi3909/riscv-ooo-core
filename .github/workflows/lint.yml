@@ -1,4 +1,4 @@
-name: SystemVerilog CI
+name: Verilog CI
 
 # This triggers the workflow on every push or pull request to the main branch
 on:
@@ -22,8 +22,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y verilator
 
       # 3. Run the strict linting check on your RTL folder
-      - name: Lint SystemVerilog Files
+      - name: Lint Verilog Files
         run: |
           # --lint-only means do not build C++ simulation, just check syntax
           # -Wall turns on all warnings (great for finding hidden hardware bugs)
-	  verilator --lint-only -Wall rtl/*.v
+          verilator --lint-only -Wall rtl/*.v
