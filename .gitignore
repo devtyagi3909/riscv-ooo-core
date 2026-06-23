@@ -1,3 +1,5 @@
 sim/cpu_sim
 waveforms/*.vcd
 .DS_Store
+rtl/a.out
+sim/test_dispatch
