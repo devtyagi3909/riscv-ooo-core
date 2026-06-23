@@ -26,4 +26,4 @@ jobs:
         run: |
           # --lint-only means do not build C++ simulation, just check syntax
           # -Wall turns on all warnings (great for finding hidden hardware bugs)
-          verilator --lint-only -Wall rtl/*.svs
+          verilator --lint-only -Wall rtl/*.sv
