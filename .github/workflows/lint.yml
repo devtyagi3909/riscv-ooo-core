@@ -1,0 +1,29 @@
+name: SystemVerilog CI
+
+# This triggers the workflow on every push or pull request to the main branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    name: Run Verilator Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Pull down your repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2. Install Verilator on the GitHub server
+      - name: Install Verilator
+        run: sudo apt-get update && sudo apt-get install -y verilator
+
+      # 3. Run the strict linting check on your RTL folder
+      - name: Lint SystemVerilog Files
+        run: |
+          # --lint-only means do not build C++ simulation, just check syntax
+          # -Wall turns on all warnings (great for finding hidden hardware bugs)
+          verilator --lint-only -Wall rtl/*.svs
