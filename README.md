@@ -27,15 +27,21 @@ This project currently demonstrates a fully functional front-end superscalar dis
 
 ### Running the Simulation
 1. Clone the repository.
-2. Compile the RTL and testbench:
-   iverilog -g2012 -o sim/cpu_sim rtl/*.v tb/cpu_tb.v
-3. Execute the simulation binary to generate the .vcd trace:
-   vvp sim/cpu_sim
-4. Open the waveform in Surfer:
+2. Run the lightweight verification script:
+   ./scripts/run_verification.sh
+3. Open the waveform in Surfer:
    surfer waveforms/cpu.vcd
 
 ### Verification
-In the waveform viewer, observe rat_inst.free_ptr and sched_inst.issue1_valid. You will see the physical register pointer successfully increment by 2 in a single clock cycle, resolving the resource starvation and allowing simultaneous dual-dispatch of independent instructions.
+`tb/cpu_tb.v` now performs directed self-checks and fails the simulation on mismatch. The checks cover:
+
+* Reset behavior (PC held at 0).
+* 2-wide fetch/decode of the first instruction pair (`ADDI`, `ADDI`).
+* RAT dual-allocation behavior (`prd_0`/`prd_1` and `free_ptr` increments by 2 on active cycles).
+* Basic scheduler/execution liveness (`issue0_valid` and `broadcast_valid` observed).
+
+If all checks pass, simulation prints:
+`PASS: cpu_tb directed verification completed with no errors.`
 
 ### Proof of Dual-Issue Dispatch
 ![Surfer Waveform: Dual Issue Dispatch Proof](assets/surfer_trace.png)
