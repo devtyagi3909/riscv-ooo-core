@@ -6,6 +6,12 @@
 
 1st Place + Special Jury Award — SanDisk Hardware Hackathon · 100+ competing teams
 
+<br/>
+<a href="https://devtyagi3909.github.io/riscv-ooo-core/" target="_blank">
+  <img src="https://img.shields.io/badge/Open_Interactive_Architecture_Explorer-cc3d10?style=for-the-badge&logo=vercel&logoColor=white" alt="Architecture Explorer"/>
+</a>
+<br/>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-cc3d10?style=flat-square)](LICENSE)
 [![Language](https://img.shields.io/badge/Language-SystemVerilog-1e4db7?style=flat-square)](rtl/)
 [![Simulator](https://img.shields.io/badge/Simulator-Icarus_Verilog-444?style=flat-square)](scripts/)

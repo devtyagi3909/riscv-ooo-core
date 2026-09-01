@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>riscv-ooo-core — Architecture Explorer</title>
+<style>
+  :root {
+    --bg:#050505; --bg2:#0a0a0a; --acc:#cc3d10; --blu:#1e4db7;
+    --ink:#f4f4f5; --dim:rgba(244,244,245,0.45); --bdr:rgba(204,61,16,0.4);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100vh;overflow-x:hidden}
+  header{border-bottom:1px solid var(--bdr);padding:16px 28px;display:flex;align-items:center;gap:20px}
+  header h1{font-size:13px;letter-spacing:2px;color:var(--acc)}
+  header span{font-size:9px;color:var(--dim);letter-spacing:1px}
+  .award{margin-left:auto;background:var(--acc);color:#fff;font-size:8px;padding:4px 10px;letter-spacing:2px;white-space:nowrap}
+  .layout{display:grid;grid-template-columns:1fr 360px;grid-template-rows:1fr auto;height:calc(100vh - 57px)}
+  #canvas-wrap{padding:32px 28px 16px;border-right:1px solid var(--bdr);overflow:hidden;position:relative}
+  #pipeline{width:100%;height:auto}
+  .stage-box{cursor:pointer}
+  .stage-box rect.body{transition:stroke 0.15s,fill 0.15s}
+  .stage-box:hover rect.body{stroke:var(--acc)!important;stroke-width:2}
+  .stage-box.active rect.body{stroke:var(--acc)!important;stroke-width:2.5;fill:#130500}
+  .stage-box.inactive{opacity:0.35}
+  #detail{padding:28px 20px;overflow-y:auto;border-left:3px solid var(--acc)}
+  #detail h2{font-size:12px;color:var(--acc);letter-spacing:2px;margin-bottom:3px}
+  #detail .subtitle{font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:18px}
+  .prop{margin-bottom:13px}
+  .prop-label{font-size:8px;color:var(--acc);letter-spacing:2px;margin-bottom:3px}
+  .prop-value{font-size:10px;line-height:1.75}
+  .tag{display:inline-block;font-size:8px;padding:3px 8px;letter-spacing:1px;margin-top:8px}
+  .tag-ok{background:var(--acc);color:#fff}
+  .tag-wip{border:1px solid var(--dim);color:var(--dim)}
+  pre{background:var(--bg2);border-left:3px solid var(--blu);padding:11px;font-size:9px;line-height:1.8;overflow-x:auto;margin-top:11px}
+  .kw{color:var(--blu)} .cm{color:var(--dim)} .ac{color:var(--acc)}
+  #wave-row{grid-column:1/-1;border-top:1px solid var(--bdr);padding:14px 28px;background:var(--bg2)}
+  #wave-row h3{font-size:8px;color:var(--acc);letter-spacing:2px;margin-bottom:10px}
+  .hint{font-size:8px;color:var(--dim);letter-spacing:1px;margin-bottom:16px}
+  a{color:var(--acc);font-size:9px}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>RISCV-OOO-CORE ARCHITECTURE EXPLORER</h1>
+    <span>DUAL-ISSUE OUT-OF-ORDER SUPERSCALAR RV32I &middot; TOMASULO ALGORITHM</span>
+  </div>
+  <div style="font-size:9px;color:var(--dim)">
+    <a href="https://github.com/devtyagi3909/riscv-ooo-core">github</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://devtyagi3909.github.io/dev-tyagi-portfolio/">portfolio</a>
+  </div>
+  <div class="award">1ST PLACE + JURY AWARD &middot; SANDISK HACKATHON</div>
+</header>
+
+<div class="layout">
+  <div id="canvas-wrap">
+    <p class="hint">CLICK A STAGE TO INSPECT ITS IMPLEMENTATION</p>
+    <svg id="pipeline" viewBox="0 0 830 290">
+      <defs>
+        <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+          <path d="M0,0 L0,5 L7,2.5 z" fill="rgba(204,61,16,0.55)"/>
+        </marker>
+        <marker id="arr-b" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+          <path d="M0,0 L0,5 L7,2.5 z" fill="rgba(30,77,183,0.55)"/>
+        </marker>
+      </defs>
+
+      <!-- Forward arrows -->
+      <line x1="108" y1="75" x2="144" y2="75" stroke="rgba(204,61,16,0.45)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="248" y1="75" x2="284" y2="75" stroke="rgba(204,61,16,0.45)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="388" y1="75" x2="424" y2="75" stroke="rgba(204,61,16,0.45)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="528" y1="75" x2="564" y2="75" stroke="rgba(204,61,16,0.45)" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="668" y1="75" x2="704" y2="75" stroke="rgba(244,244,245,0.2)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+      <!-- CDB feedback bus -->
+      <path d="M610,115 L610,190 L195,190 L195,115" fill="none" stroke="rgba(30,77,183,0.4)" stroke-width="1.2" stroke-dasharray="5,3"/>
+      <text x="405" y="207" font-family="monospace" font-size="8" fill="rgba(30,77,183,0.6)" text-anchor="middle" letter-spacing="1">CDB BROADCAST BUS</text>
+      <line x1="455" y1="202" x2="520" y2="202" stroke="rgba(30,77,183,0.3)" stroke-width="1" marker-end="url(#arr-b)"/>
+      <line x1="355" y1="202" x2="290" y2="202" stroke="rgba(30,77,183,0.3)" stroke-width="1" marker-end="url(#arr-b)"/>
+
+      <!-- FETCH -->
+      <g class="stage-box" data-id="fetch" onclick="sel('fetch')">
+        <rect class="body" x="2" y="35" width="106" height="80" rx="2" fill="#0a0a0a" stroke="rgba(204,61,16,0.35)" stroke-width="1"/>
+        <text x="55" y="58" font-family="monospace" font-size="9" fill="#cc3d10" text-anchor="middle" letter-spacing="1.5">FETCH</text>
+        <text x="55" y="74" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">2-WIDE</text>
+        <text x="55" y="88" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">PC + IMEM</text>
+        <text x="55" y="106" font-family="monospace" font-size="7" fill="#cc3d10" text-anchor="middle">&#10003; VERIFIED</text>
+      </g>
+
+      <!-- DECODE -->
+      <g class="stage-box" data-id="decode" onclick="sel('decode')">
+        <rect class="body" x="148" y="35" width="106" height="80" rx="2" fill="#0a0a0a" stroke="rgba(204,61,16,0.35)" stroke-width="1"/>
+        <text x="201" y="58" font-family="monospace" font-size="9" fill="#cc3d10" text-anchor="middle" letter-spacing="1.5">DECODE</text>
+        <text x="201" y="74" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">2-WIDE</text>
+        <text x="201" y="88" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">RV32I FULL</text>
+        <text x="201" y="106" font-family="monospace" font-size="7" fill="#cc3d10" text-anchor="middle">&#10003; VERIFIED</text>
+      </g>
+
+      <!-- RENAME -->
+      <g class="stage-box" data-id="rename" onclick="sel('rename')">
+        <rect class="body" x="288" y="35" width="106" height="80" rx="2" fill="#0a0a0a" stroke="rgba(204,61,16,0.35)" stroke-width="1"/>
+        <text x="341" y="55" font-family="monospace" font-size="9" fill="#cc3d10" text-anchor="middle" letter-spacing="1.5">RENAME</text>
+        <text x="341" y="70" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">RAT</text>
+        <text x="341" y="84" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">32&#8594;64 PHYS</text>
+        <text x="341" y="98" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">FREE LIST</text>
+        <text x="341" y="110" font-family="monospace" font-size="7" fill="#cc3d10" text-anchor="middle">&#10003; VERIFIED</text>
+      </g>
+
+      <!-- DISPATCH -->
+      <g class="stage-box" data-id="dispatch" onclick="sel('dispatch')">
+        <rect class="body" x="428" y="35" width="106" height="80" rx="2" fill="#0a0a0a" stroke="rgba(204,61,16,0.35)" stroke-width="1"/>
+        <text x="481" y="55" font-family="monospace" font-size="9" fill="#cc3d10" text-anchor="middle" letter-spacing="1.5">DISPATCH</text>
+        <text x="481" y="70" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">ISSUE QUEUE</text>
+        <text x="481" y="84" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">RAW HAZARD</text>
+        <text x="481" y="98" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">SCOREBOARD</text>
+        <text x="481" y="110" font-family="monospace" font-size="7" fill="#cc3d10" text-anchor="middle">&#10003; VERIFIED</text>
+      </g>
+
+      <!-- EXECUTE -->
+      <g class="stage-box" data-id="execute" onclick="sel('execute')">
+        <rect class="body" x="568" y="35" width="106" height="80" rx="2" fill="#080a12" stroke="rgba(30,77,183,0.4)" stroke-width="1"/>
+        <text x="621" y="55" font-family="monospace" font-size="9" fill="#1e4db7" text-anchor="middle" letter-spacing="1.5">EXECUTE</text>
+        <text x="621" y="70" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">ALU &#215; 2</text>
+        <text x="621" y="84" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">CDB WRITE</text>
+        <text x="621" y="98" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.55)" text-anchor="middle">WAKEUP</text>
+        <text x="621" y="110" font-family="monospace" font-size="7" fill="#1e4db7" text-anchor="middle">&#10003; VERIFIED</text>
+      </g>
+
+      <!-- COMMIT (WIP) -->
+      <g class="stage-box" data-id="commit" onclick="sel('commit')">
+        <rect class="body" x="708" y="35" width="106" height="80" rx="2" fill="#080808" stroke="rgba(244,244,245,0.18)" stroke-width="1" stroke-dasharray="6,3"/>
+        <text x="761" y="55" font-family="monospace" font-size="9" fill="rgba(244,244,245,0.3)" text-anchor="middle" letter-spacing="1.5">COMMIT</text>
+        <text x="761" y="70" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.25)" text-anchor="middle">ROB</text>
+        <text x="761" y="84" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.25)" text-anchor="middle">IN-ORDER</text>
+        <text x="761" y="98" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.25)" text-anchor="middle">PRECISE EXC</text>
+        <text x="761" y="110" font-family="monospace" font-size="7" fill="rgba(244,244,245,0.25)" text-anchor="middle">IN PROGRESS</text>
+      </g>
+
+      <!-- Target -->
+      <text x="415" y="255" font-family="monospace" font-size="8" fill="rgba(204,61,16,0.4)" text-anchor="middle" letter-spacing="2">TARGET: 250 MHz &middot; XILINX ULTRASCALE+ &middot; 7-STAGE PIPELINE</text>
+    </svg>
+  </div>
+
+  <div id="detail">
+    <h2 id="d-title">SELECT A STAGE</h2>
+    <div class="subtitle" id="d-sub">Click any pipeline stage above to inspect its RTL implementation</div>
+    <div id="d-body"></div>
+  </div>
+
+  <div id="wave-row">
+    <h3>DUAL-ISSUE DISPATCH &mdash; VERIFIED TIMING (from simulation)</h3>
+    <svg viewBox="0 0 830 85" style="width:100%;height:85px">
+      <text x="0" y="13" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.35)">aclk</text>
+      <text x="0" y="33" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.35)">issue0_valid</text>
+      <text x="0" y="53" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.35)">issue1_valid</text>
+      <text x="0" y="73" font-family="monospace" font-size="8" fill="rgba(244,244,245,0.35)">broadcast_valid</text>
+      <!-- clock -->
+      <path d="M90,17 L90,7 L110,7 L110,17 L130,17 L130,7 L150,7 L150,17 L170,17 L170,7 L190,7 L190,17 L210,17 L210,7 L230,7 L230,17 L250,17 L250,7 L270,7 L270,17 L290,17 L290,7 L310,7 L310,17 L330,17 L330,7 L350,7 L350,17 L370,17 L370,7 L390,7 L390,17 L410,17 L410,7 L430,7 L430,17 L450,17 L450,7 L470,7 L470,17 L490,17 L490,7 L510,7 L510,17 L530,17 L530,7 L550,7 L550,17 L570,17 L570,7 L590,7 L590,17 L610,17 L610,7 L630,7 L630,17 L650,17 L650,7 L670,7 L670,17 L690,17 L690,7 L710,7 L710,17 L730,17 L730,7 L750,7 L750,17 L770,17 L770,7 L790,7 L790,17 L810,17"
+            stroke="#cc3d10" stroke-width="1" fill="none" stroke-opacity="0.6"/>
+      <!-- issue0 -->
+      <path d="M90,37 L170,37 L170,27 L310,27 L310,37 L510,37 L510,27 L650,27 L650,37 L810,37"
+            stroke="#cc3d10" stroke-width="1.5" fill="none"/>
+      <!-- issue1 -->
+      <path d="M90,57 L170,57 L170,47 L310,47 L310,57 L510,57 L510,47 L650,47 L650,57 L810,57"
+            stroke="#cc3d10" stroke-width="1.5" fill="none"/>
+      <!-- broadcast -->
+      <path d="M90,77 L210,77 L210,67 L250,67 L250,77 L370,77 L370,67 L410,67 L410,77 L550,77 L550,67 L590,67 L590,77 L730,77 L730,67 L770,67 L770,77 L810,77"
+            stroke="#1e4db7" stroke-width="1.5" fill="none"/>
+      <!-- dual-issue marker -->
+      <line x1="310" y1="2" x2="310" y2="82" stroke="#cc3d10" stroke-width="1" stroke-dasharray="3,3" stroke-opacity="0.5"/>
+      <text x="310" y="2" font-family="monospace" font-size="7" fill="rgba(204,61,16,0.65)" text-anchor="middle">DUAL ISSUE</text>
+    </svg>
+  </div>
+</div>
+
+<script>
+const D={
+  fetch:{title:"INSTRUCTION FETCH",sub:"Stage 1/7 · 2-wide · VERIFIED",props:[
+    {l:"ARCHITECTURE",v:"Dual-issue: fetches 2 RV32I instructions per cycle from IMEM. PC increments by 8 on sequential cycles. Branch target calculated combinatorially."},
+    {l:"KEY SIGNALS",v:"pc_r[31:0] — program counter\nfetch_valid[1:0] — per-slot validity\nimem_addr[31:0] — instruction memory addr"},
+    {l:"VERIFICATION",v:"Directed testbench confirms 2-wide fetch of ADDI pairs. Reset holds PC at 0x0 confirmed."}
+  ],code:`<span class="cm">// 2-wide fetch: PC advances by 8 per cycle</span>
+<span class="kw">always_ff</span> @(<span class="kw">posedge</span> aclk) <span class="kw">begin</span>
+  <span class="kw">if</span> (!aresetn)   pc_r &lt;= <span class="ac">32'h0</span>;
+  <span class="kw">else if</span> (fetch_en)
+    pc_r &lt;= branch_taken
+           ? branch_target
+           : pc_r + <span class="ac">32'd8</span>;
+<span class="kw">end</span>`,ok:true},
+
+  decode:{title:"INSTRUCTION DECODE",sub:"Stage 2/7 · 2-wide · RV32I · VERIFIED",props:[
+    {l:"ARCHITECTURE",v:"Parallel decode of 2 RV32I instructions per cycle. Handles all base integer formats: R, I, S, B, U, J. Sign-extended immediates generated combinatorially."},
+    {l:"KEY SIGNALS",v:"opcode[6:0], funct3[2:0], funct7[6:0]\nrs1, rs2, rd [4:0] per slot\nimm[31:0] — sign-extended immediate"},
+    {l:"VERIFICATION",v:"ADDI, ADD, LW, SW, BEQ decode verified. Immediate sign-extension confirmed for all instruction types."}
+  ],code:`<span class="cm">// I-type immediate</span>
+<span class="kw">assign</span> imm_i = {{<span class="ac">20</span>{inst[<span class="ac">31</span>]}}, inst[<span class="ac">31</span>:<span class="ac">20</span>]};
+<span class="cm">// S-type immediate</span>
+<span class="kw">assign</span> imm_s = {{<span class="ac">20</span>{inst[<span class="ac">31</span>]}},
+               inst[<span class="ac">31</span>:<span class="ac">25</span>], inst[<span class="ac">11</span>:<span class="ac">7</span>]};
+<span class="cm">// B-type immediate (branch offset)</span>
+<span class="kw">assign</span> imm_b = {{<span class="ac">19</span>{inst[<span class="ac">31</span>]}}, inst[<span class="ac">31</span>],
+               inst[<span class="ac">7</span>], inst[<span class="ac">30</span>:<span class="ac">25</span>],
+               inst[<span class="ac">11</span>:<span class="ac">8</span>], <span class="ac">1'b0</span>};`,ok:true},
+
+  rename:{title:"REGISTER RENAME (RAT)",sub:"Stage 3/7 · 32 arch → 64 physical · VERIFIED",props:[
+    {l:"ARCHITECTURE",v:"Dynamic Register Alias Table: maps 32 architectural registers to 64 physical registers. Simultaneous dual-allocation per cycle with combinatorial intra-group bypass — if inst1 reads a register written by inst0 in the same cycle, it gets inst0's allocated physical reg directly."},
+    {l:"KEY SIGNALS",v:"rat[31:0][5:0] — arch-to-phys mapping table\nfree_list[63:0] — free physical reg bitmap\nfree_ptr[5:0] — allocation pointer\nprd_0, prd_1 [5:0] — allocated physical regs"},
+    {l:"VERIFICATION",v:"prd_0 and prd_1 confirmed to increment by 2 per active cycle. free_ptr advances correctly with no corruption under back-to-back dual-allocation."}
+  ],code:`<span class="cm">// Dual-allocation: two physical regs per cycle</span>
+<span class="kw">assign</span> prd_0 = free_list[free_ptr];
+<span class="kw">assign</span> prd_1 = free_list[free_ptr + <span class="ac">1</span>];
+
+<span class="cm">// Intra-group bypass: inst1 sees inst0's rename</span>
+<span class="kw">assign</span> prs1_1 = (rs1_1 == rd_0 &amp;&amp; wr_en_0)
+              ? prd_0 : rat[rs1_1];
+<span class="cm">// Advance free pointer by 2 on dual dispatch</span>
+free_ptr &lt;= free_ptr + (wr_en_0 + wr_en_1);`,ok:true},
+
+  dispatch:{title:"SUPERSCALAR DISPATCH",sub:"Stage 4/7 · RAW hazard · Tomasulo · VERIFIED",props:[
+    {l:"ARCHITECTURE",v:"Dual-slot issue queue. Combinatorial RAW hazard detection via scoreboard — stalls a slot only when its source physical register is still outstanding. Independent instructions issue simultaneously. This is the core of Tomasulo's algorithm."},
+    {l:"KEY SIGNALS",v:"issue0_valid, issue1_valid — dual-issue grant (both high = dual issue proven)\nscoreboard[63:0] — bit set = reg in-flight\nraw_stall_0, raw_stall_1 — per-slot stall"},
+    {l:"VERIFIED",v:"issue0_valid AND issue1_valid simultaneously high confirmed in waveform — dual-issue works. RAW stall correctly serializes dependent instructions."}
+  ],code:`<span class="cm">// RAW: slot ready if sources not in-flight</span>
+<span class="kw">wire</span> rdy0 = !scoreboard[prs1_0]
+          &amp;&amp; !scoreboard[prs2_0];
+<span class="kw">wire</span> rdy1 = !scoreboard[prs1_1]
+          &amp;&amp; !scoreboard[prs2_1]
+          &amp;&amp; !intra_raw_1;
+
+<span class="kw">assign</span> issue0_valid = rdy0 &amp;&amp; iq_valid_0;
+<span class="kw">assign</span> issue1_valid = rdy1 &amp;&amp; iq_valid_1;
+<span class="cm">// Both high simultaneously = dual issue ✓</span>`,ok:true},
+
+  execute:{title:"EXECUTE + CDB BROADCAST",sub:"Stage 5/7 · ALU × 2 · CDB wakeup · VERIFIED",props:[
+    {l:"ARCHITECTURE",v:"Two parallel ALU execution units. On result ready, the unit broadcasts on the Common Data Bus (CDB): {tag, data}. Waiting reservation stations snoop the CDB — if the broadcast tag matches a source register, the value is captured and the instruction wakes up."},
+    {l:"KEY SIGNALS",v:"broadcast_valid — CDB transaction active\nbroadcast_tag[5:0] — physical reg being written\nbroadcast_data[31:0] — computed result\nscoreboard bit cleared on broadcast"},
+    {l:"VERIFICATION",v:"broadcast_valid observed in waveform at correct cycle. CDB tag correctly matches prd_0/prd_1 allocated by RAT in stage 3."}
+  ],code:`<span class="cm">// CDB: arbitrate and broadcast result</span>
+<span class="kw">assign</span> broadcast_valid = alu0_done || alu1_done;
+<span class="kw">assign</span> broadcast_tag   = alu0_done
+                        ? alu0_prd : alu1_prd;
+<span class="kw">assign</span> broadcast_data  = alu0_done
+                        ? alu0_res : alu1_res;
+<span class="cm">// Clear scoreboard on writeback</span>
+<span class="kw">always_ff</span> @(<span class="kw">posedge</span> aclk)
+  <span class="kw">if</span> (broadcast_valid)
+    scoreboard[broadcast_tag] &lt;= <span class="ac">1'b0</span>;`,ok:true},
+
+  commit:{title:"REORDER BUFFER — COMMIT",sub:"Stage 6/7 · In-order commit · IN PROGRESS",props:[
+    {l:"STATUS",v:"ROB commit stage is under active integration. The circular buffer structure, head/tail pointers, and retirement logic are designed. Precise exception rollback is being verified."},
+    {l:"ARCHITECTURE",v:"Circular ROB with configurable depth. Instructions commit in program order at the head when marked complete by CDB. Precise exceptions: ROB drains and machine state rolls back to last-committed instruction."},
+    {l:"TARGET",v:"Full RV32I ISA compliance after integration. Expected Q4 2026."}
+  ],code:`<span class="cm">// ROB commit (integration in progress)</span>
+<span class="kw">always_ff</span> @(<span class="kw">posedge</span> aclk) <span class="kw">begin</span>
+  <span class="kw">if</span> (rob[head].complete) <span class="kw">begin</span>
+    <span class="cm">// Retire to architectural register file</span>
+    arf[rob[head].rd]  &lt;= rob[head].result;
+    head               &lt;= head + <span class="ac">1</span>;
+  <span class="kw">end</span>
+<span class="kw">end</span>`,wip:true}
+};
+
+function sel(id){
+  const d=D[id]; if(!d) return;
+  document.querySelectorAll('.stage-box').forEach(el=>{
+    el.classList.toggle('active',el.dataset.id===id);
+    el.classList.toggle('inactive',el.dataset.id!==id);
+  });
+  document.getElementById('d-title').textContent=d.title;
+  document.getElementById('d-sub').textContent=d.sub;
+  let h='';
+  d.props.forEach(p=>{
+    h+=`<div class="prop"><div class="prop-label">${p.l}</div><div class="prop-value">${p.v.replace(/\n/g,'<br/>')}</div></div>`;
+  });
+  if(d.code) h+=`<pre>${d.code}</pre>`;
+  if(d.ok)  h+=`<span class="tag tag-ok">SIMULATION VERIFIED</span>`;
+  if(d.wip) h+=`<span class="tag tag-wip">IN ACTIVE DEVELOPMENT</span>`;
+  document.getElementById('d-body').innerHTML=h;
+}
+sel('dispatch');
+</script>
+</body>
+</html>
