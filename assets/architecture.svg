@@ -1,36 +1,219 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg width="1150" height="750" xmlns="http://www.w3.org/2000/svg" style="background-color: #030303; font-family: 'Space Mono', 'Courier New', monospace;"><defs><filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur" /><feMerge><feMergeNode in_="coloredBlur" /><feMergeNode in_="SourceGraphic" /></feMerge></filter><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M 25 0 L 0 0 0 25" fill="none" stroke="#111111" stroke_width="1" /></pattern></defs><rect width="100%" height="100%" fill="url(#grid)" /><style>
-        .wire { stroke: #333; stroke-width: 2; fill: none; }
-        .wire-active { stroke: #ff4500; stroke-width: 2; fill: none; stroke-dasharray: 6 6; animation: flow 1.2s linear infinite; }
-        .wire-bus { stroke: #0088ff; stroke-width: 3; fill: none; stroke-dasharray: 8 8; animation: flow-bus 0.8s linear infinite; }
-        @keyframes flow { to { stroke-dashoffset: -12; } }
-        @keyframes flow-bus { to { stroke-dashoffset: -16; } }
-        
-        .box { fill: #0a0a0a; stroke: #333; stroke-width: 2; rx: 4; }
-        .box-highlight { fill: #111; stroke: #ff4500; stroke-width: 2; rx: 4; }
-        .box-blue { fill: #111; stroke: #0088ff; stroke-width: 2; rx: 4; }
-        
-        .text { fill: #999; font-size: 13px; font-weight: bold; }
-        .text-hl { fill: #fff; font-size: 13px; font-weight: bold; }
-        
-        /* Blinking logic for execution */
-        .exec-flash { animation: exec 1.5s infinite; }
-        @keyframes exec { 
-            0%, 20% { fill: #111; stroke: #333; }
-            25%, 75% { fill: #3a1000; stroke: #ff4500; }
-            80%, 100% { fill: #111; stroke: #333; }
-        }
-        
-        .rob-fill { animation: robf 3s infinite; }
-        @keyframes robf {
-            0% { fill: #111; }
-            20% { fill: #00aa00; }
-            80% { fill: #00aa00; }
-            100% { fill: #111; }
-        }
-        
-        /* Moving packets */
-        .packet-green { fill: #00ff00; filter: url(#glow); }
-        .packet-red { fill: #ff4500; filter: url(#glow); }
-        .packet-blue { fill: #0088ff; filter: url(#glow); }
-    </style><path d="M 180 120 L 180 170.0 L 280 170.0 L 280 220" class="wire" /><path d="M 180 240 L 230.0 240 L 230.0 220 L 280 220" class="wire" /><path d="M 420 220 L 520 140" class="wire-active" /><path d="M 420 220 L 520 320" class="wire-active" /><path d="M 660 140 L 740 140" class="wire-active" /><path d="M 660 300 L 740 260" class="wire-active" /><path d="M 660 340 L 740 380" class="wire-active" /><path d="M 860 260 L 860 380.0 L 900 380.0 L 900 500" class="wire-bus" /><path d="M 860 380 L 860 440.0 L 900 440.0 L 900 500" class="wire-bus" /><path d="M 440 500 L 960 500" class="wire-bus" /><path d="M 940 500 L 940 420.0 L 980 420.0 L 980 340" class="wire-bus" /><path d="M 460 500 L 460 420.0 L 520 420.0 L 520 340" class="wire-bus" /><path d="M 480 500 L 480 330.0 L 520 330.0 L 520 160" class="wire-bus" /><rect x="40" y="100" width="140" height="40" class="box" /><text x="110.0" y="124.0" text_anchor="middle" class="text">PC / BPU</text><rect x="40" y="220" width="140" height="40" class="box" /><text x="110.0" y="244.0" text_anchor="middle" class="text">I-Cache</text><rect x="280" y="160" width="140" height="120" class="box" /><text x="350.0" y="224.0" text_anchor="middle" class="text">2-Wide Decode</text><rect x="520" y="100" width="140" height="80" class="box-highlight" /><text x="590.0" y="137.0" text_anchor="middle" class="text-hl">RAT</text><text x="590.0" y="153.0" text_anchor="middle" class="text-hl">(Rename)</text><rect x="520" y="280" width="140" height="80" class="box-highlight" /><text x="590.0" y="317.0" text_anchor="middle" class="text-hl">Issue Queue</text><text x="590.0" y="333.0" text_anchor="middle" class="text-hl">(Scoreboard)</text><rect x="740" y="120" width="120" height="40" class="box-blue" /><text x="800.0" y="144.0" text_anchor="middle" class="text-hl">Physical Regs</text><rect x="740" y="240" width="120" height="40" class="box exec-flash" /><text x="800.0" y="264.0" text_anchor="middle" class="text-hl">ALU 0</text><rect x="740" y="360" width="120" height="40" class="box exec-flash" /><text x="800.0" y="384.0" text_anchor="middle" class="text-hl">ALU 1</text><rect x="980" y="120" width="120" height="300" class="box" /><text x="1040.0" y="267.0" text_anchor="middle" class="text">Reorder Buffer</text><text x="1040.0" y="283.0" text_anchor="middle" class="text">(ROB)</text><rect x="1000" y="170" width="80" height="16" fill="#111" rx="2" /><rect x="1000" y="192" width="80" height="16" fill="#111" rx="2" /><rect x="1000" y="214" width="80" height="16" fill="#111" rx="2" /><rect x="1000" y="236" width="80" height="16" fill="#111" rx="2" /><rect x="1000" y="258" width="80" height="16" fill="#111" rx="2" class="rob-fill" style="animation-delay: 0.8s" /><rect x="1000" y="280" width="80" height="16" fill="#111" rx="2" class="rob-fill" style="animation-delay: 1.0s" /><rect x="1000" y="302" width="80" height="16" fill="#111" rx="2" class="rob-fill" style="animation-delay: 1.2000000000000002s" /><rect x="1000" y="324" width="80" height="16" fill="#111" rx="2" class="rob-fill" style="animation-delay: 1.4000000000000001s" /><rect x="1000" y="346" width="80" height="16" fill="#111" rx="2" /><rect x="1000" y="368" width="80" height="16" fill="#111" rx="2" /><circle r="5" class="packet-green"><animateMotion path="M 110 140 L 110 220" dur="1.2s" repeatCount="indefinite" /></circle><circle r="5" class="packet-green"><animateMotion path="M 180 240 L 280 220" dur="1.2s" repeatCount="indefinite" /></circle><circle r="5" class="packet-red"><animateMotion path="M 420 220 L 520 320" dur="1s" repeatCount="indefinite" /></circle><circle r="5" class="packet-red"><animateMotion path="M 660 300 L 740 260" dur="0.8s" repeatCount="indefinite" /></circle><circle r="5" class="packet-blue"><animateMotion path="M 860 380 L 900 380 L 900 500" dur="1s" repeatCount="indefinite" /></circle><circle r="5" class="packet-blue"><animateMotion path="M 900 500 L 940 500 L 940 340 L 980 340" dur="1.2s" repeatCount="indefinite" /></circle><circle r="5" class="packet-blue"><animateMotion path="M 520 500 L 460 500 L 460 340 L 520 340" dur="1.2s" repeatCount="indefinite" /></circle><rect x="40" y="560" width="380" height="160" fill="#0a0a0a" stroke="#444" stroke_width="2" rx="4" /><text x="230" y="585" fill="#fff" font_size="14" font_weight="bold" text_anchor="middle">[ DIAGRAM LEGEND ]</text><circle cx="70" cy="615" r="5" class="packet-green" /><text x="90" y="619" fill="#aaa" font_size="12" font_weight="bold">In-Order Instruction Fetch / Decode</text><circle cx="70" cy="640" r="5" class="packet-red" /><text x="90" y="644" fill="#aaa" font_size="12" font_weight="bold">Out-of-Order Micro-Op Dispatch</text><circle cx="70" cy="665" r="5" class="packet-blue" /><text x="90" y="669" fill="#aaa" font_size="12" font_weight="bold">CDB Result Broadcast / Wakeup</text><rect x="60" y="680" width="20" height="20" rx="2" class="box exec-flash" /><text x="90" y="694" fill="#aaa" font_size="12" font_weight="bold">Active Execution Unit (Crunching)</text><rect x="60" y="707" width="20" height="16" rx="2" class="rob-fill" /><text x="90" y="719" fill="#aaa" font_size="12" font_weight="bold">ROB Entry Allocation &amp; Commit</text><text x="40" y="40" fill="#fff" font_size="18" font_weight="bold">[ RISC-V OOO CORE WORKING PIPELINE ]</text></svg>
+<svg width="1600" height="1129" viewBox="0 0 1600 1129" xmlns="http://www.w3.org/2000/svg" font-family="'Space Mono','JetBrains Mono','Courier New',monospace" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo2MmExODI4Yi0wYmRhLTRmNTYtODQ5Ni0xYTMyYjE5NjJmMTkAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaEnSwwY2fL/mE1BX9WI0wJIAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDo2MmYwYWNiMy00YzRjLTQwOTUtYWMxNy1iYWQzMGI0MzAwMDZscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNoSsuknua1ggVp+jIzrHNp1gAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg6LHHvLGUvTUE6HfFXUp7nz5F8ogNydtqg8zxvxjTcLukZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaFmJ9oi6G94L3DyFMDNLDdcAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCC2r80eTDud7bJqSGSWqPuSEbeTn8VNlQBicSTn4sWHeWRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBjeZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjYyYTE4MjhiLTBiZGEtNGY1Ni04NDk2LTFhMzJiMTk2MmYxOS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjE0MmRiZTM2LTUyODctNDAxYi05OGNkLTQ1NWUxOTUwYmMwNXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCDosce8sZS9NQTod8VdSnufPkXyiA3J22qDzPG/GNNwu6JjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggTXnHCjvfJIWMO+ifMzsSk4R4fIo+57XdQ16YVqoFEXiiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFgg7b3e/t5IglcyLfWnw0UyT4HvI8Muh3HuhixJDqV3IzR0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQFyD3Fk9WclNOQUNvNdRaR8VBZdCts66zFgbPiNfCiaG3l+o7KJQmAFBgWHiPoTCpuNr20O7e26s/zZC4vxbQjo=</c2pa:manifest></metadata>
+<defs>
+  <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+    <path d="M28 0 L0 0 0 28" fill="none" stroke="#0d0d0d" stroke-width="1"/>
+  </pattern>
+  <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#ff5a1f"/>
+  </marker>
+  <marker id="arrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#2196ff"/>
+  </marker>
+  <marker id="arrDim" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+    <path d="M0,0 L0,5 L7,2.5 z" fill="#555"/>
+  </marker>
+  <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#ffb020" stop-opacity="1"/>
+    <stop offset="100%" stop-color="#ffb020" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+<rect width="1600" height="1129" fill="#030303"/>
+<rect width="1600" height="1129" fill="url(#grid)"/>
+<style>
+  .stage-verified rect.body { fill:#0a0a0a; stroke:#ff5a1f; stroke-width:1.6; }
+  .stage-warn rect.body     { fill:#0a0a0a; stroke:#ffb020; stroke-width:1.6; }
+  .stage-dead rect.body     { fill:#080808; stroke:#4a4a4a; stroke-width:1.4; stroke-dasharray:6 5; }
+  .lbl-title-o { fill:#ff8a4c; font-size:14.5px; font-weight:700; letter-spacing:1px; }
+  .lbl-title-w { fill:#ffcb6b; font-size:14.5px; font-weight:700; letter-spacing:1px; }
+  .lbl-title-d { fill:#8a8a8a; font-size:14.5px; font-weight:700; letter-spacing:1px; }
+  .lbl-sub  { fill:#a8a8a8; font-size:11px; }
+  .lbl-sub-dim { fill:#666; font-size:11px; }
+  .chip-ok   { fill:#2a0e04; stroke:#ff5a1f; }
+  .chip-warn { fill:#2a1c00; stroke:#ffb020; }
+  .chip-dead { fill:#111; stroke:#555; }
+  .chip-txt-ok   { fill:#ff9a5c; font-size:9.5px; font-weight:700; letter-spacing:1px; }
+  .chip-txt-warn { fill:#ffcb6b; font-size:9.5px; font-weight:700; letter-spacing:1px; }
+  .chip-txt-dead { fill:#999; font-size:9.5px; font-weight:700; letter-spacing:1px; }
+  .wire-o { stroke:#ff5a1f; stroke-width:2.2; fill:none; }
+  .wire-b { stroke:#2196ff; stroke-width:2.4; fill:none; }
+  .wire-dim { stroke:#555; stroke-width:1.6; fill:none; }
+  .flow-o { stroke-dasharray:7 7; animation:flowO 1s linear infinite; }
+  .flow-b { stroke-dasharray:8 8; animation:flowB 0.85s linear infinite; }
+  @keyframes flowO { to { stroke-dashoffset:-14; } }
+  @keyframes flowB { to { stroke-dashoffset:-16; } }
+  .pulse-warn { animation: pulseWarn 2.4s ease-in-out infinite; }
+  @keyframes pulseWarn { 0%,100% { opacity:0.4; } 50% { opacity:1; } }
+  .exec-flash rect.execbg { animation: execflash 1.7s ease-in-out infinite; }
+  @keyframes execflash { 0%,15% { fill:#0a0a0a; } 45%,65% { fill:#2a1000; } 90%,100% { fill:#0a0a0a; } }
+  .term-txt { fill:#4ce06a; font-size:11px; }
+  .term-txt-dim { fill:#3a7a48; font-size:11px; }
+  .term-txt-warn { fill:#ffb020; font-size:11px; }
+  .panel-hdr { fill:#ff5a1f; font-size:11px; font-weight:700; letter-spacing:2px; }
+  .panel-bg { fill:#0a0a0a; stroke:#2a2a2a; stroke-width:1; }
+  .legend-txt { fill:#bdbdbd; font-size:11.5px; }
+  .footnote { fill:#707070; font-size:10px; }
+</style>
+<text x="46" y="46" fill="#f5f5f5" font-size="24" font-weight="700" letter-spacing="1px">RISC-V OOO CORE &#8212; RTL-VERIFIED PIPELINE MAP</text>
+<text x="46" y="70" class="lbl-sub" letter-spacing="0.5px">devtyagi3909/riscv-ooo-core &#183; dual-issue front-end (verified) &#183; single-issue execute (verified) &#183; ROB / commit designed, not yet wired</text>
+<rect x="1182" y="18" width="372" height="28" rx="3" fill="#2a0e04" stroke="#ff5a1f" stroke-width="1"/>
+<text x="1368.0" y="37" text-anchor="middle" fill="#ff9a5c" font-size="11.5" font-weight="700" letter-spacing="1px">1ST PLACE + JURY AWARD &#183; SANDISK HACKATHON</text>
+<g class="stage-verified">
+<rect x="98.3" y="158.0" width="70.4" height="17" rx="8.5" class="chip-ok" stroke-width="1.2"/><text x="133.5" y="170.0" text-anchor="middle" class="chip-txt-ok">VERIFIED</text>
+<rect class="body" x="46" y="175" width="175" height="148" rx="6"/>
+<text x="133.5" y="201" text-anchor="middle" class="lbl-title-o">FETCH</text>
+<text x="133.5" y="223.0" text-anchor="middle" class="lbl-sub">PC: SEQUENTIAL, +8/CYCLE</text>
+<text x="133.5" y="239.5" text-anchor="middle" class="lbl-sub">NO BRANCH PREDICTOR</text>
+<text x="133.5" y="256.0" text-anchor="middle" class="lbl-sub">IMEM: 256×32b PRELOADED</text>
+</g>
+<g class="stage-verified">
+<rect x="319.8" y="158.0" width="70.4" height="17" rx="8.5" class="chip-ok" stroke-width="1.2"/><text x="355.0" y="170.0" text-anchor="middle" class="chip-txt-ok">VERIFIED</text>
+<rect class="body" x="255" y="175" width="200" height="148" rx="6"/>
+<text x="355.0" y="201" text-anchor="middle" class="lbl-title-o">DECODE · 2-WIDE</text>
+<text x="355.0" y="223.0" text-anchor="middle" class="lbl-sub">COMB. DECODE, 2 INSTR/CYCLE</text>
+<text x="355.0" y="239.5" text-anchor="middle" class="lbl-sub">RV32I ALU+IMM SUBSET ONLY</text>
+<text x="355.0" y="256.0" text-anchor="middle" class="lbl-sub">9 R-TYPE + 5 I-TYPE (14 OPS)</text>
+</g>
+<g class="stage-verified">
+<rect x="553.8" y="158.0" width="70.4" height="17" rx="8.5" class="chip-ok" stroke-width="1.2"/><text x="589.0" y="170.0" text-anchor="middle" class="chip-txt-ok">VERIFIED</text>
+<rect class="body" x="489" y="175" width="200" height="148" rx="6"/>
+<text x="589.0" y="201" text-anchor="middle" class="lbl-title-o">RENAME · RAT</text>
+<text x="589.0" y="223.0" text-anchor="middle" class="lbl-sub">32 ARCH → 64 PHYSICAL</text>
+<text x="589.0" y="239.5" text-anchor="middle" class="lbl-sub">DUAL ALLOC / CYCLE</text>
+<text x="589.0" y="256.0" text-anchor="middle" class="lbl-sub">free_ptr: MOD-64 COUNTER</text>
+</g>
+<g class="stage-warn">
+<rect x="779.0" y="158.0" width="83.0" height="17" rx="8.5" class="chip-warn" stroke-width="1.2"/><text x="820.5" y="170.0" text-anchor="middle" class="chip-txt-warn">BOTTLENECK</text>
+<rect class="body" x="723" y="175" width="195" height="148" rx="6"/>
+<text x="820.5" y="201" text-anchor="middle" class="lbl-title-w">ISSUE QUEUE</text>
+<text x="820.5" y="223.0" text-anchor="middle" class="lbl-sub">8-ENTRY SCOREBOARD</text>
+<text x="820.5" y="239.5" text-anchor="middle" class="lbl-sub">CDB TAG WAKEUP LOGIC</text>
+<text x="820.5" y="256.0" text-anchor="middle" class="lbl-sub">1 DISPATCH PORT (SLOT0 ONLY)</text>
+</g>
+<g class="stage-warn">
+<rect x="1000.5" y="158.0" width="83.0" height="17" rx="8.5" class="chip-warn" stroke-width="1.2"/><text x="1042.0" y="170.0" text-anchor="middle" class="chip-txt-warn">BOTTLENECK</text>
+<rect class="body" x="952" y="175" width="180" height="148" rx="6"/>
+<text x="1042.0" y="201" text-anchor="middle" class="lbl-title-w">SCHEDULER</text>
+<text x="1042.0" y="223.0" text-anchor="middle" class="lbl-sub">OLDEST-READY SELECT</text>
+<text x="1042.0" y="239.5" text-anchor="middle" class="lbl-sub">DESIGNED FOR 2 GRANTS/CYCLE</text>
+<text x="1042.0" y="256.0" text-anchor="middle" class="lbl-sub">OBSERVED: 1 GRANT/CYCLE</text>
+</g>
+<g class="stage-warn exec-flash">
+<rect x="1222.0" y="158.0" width="83.0" height="17" rx="8.5" class="chip-warn" stroke-width="1.2"/><text x="1263.5" y="170.0" text-anchor="middle" class="chip-txt-warn">BOTTLENECK</text>
+<rect class="body execbg" x="1166" y="175" width="195" height="148" rx="6"/>
+<text x="1263.5" y="201" text-anchor="middle" class="lbl-title-w">EXECUTE</text>
+<text x="1263.5" y="223.0" text-anchor="middle" class="lbl-sub">1× SHARED ALU (NOT 2×)</text>
+<text x="1263.5" y="239.5" text-anchor="middle" class="lbl-sub">PRIORITY: SLOT0 OVER SLOT1</text>
+<text x="1263.5" y="256.0" text-anchor="middle" class="lbl-sub">ADD/SUB/LOGIC/SHIFT/SLT</text>
+</g>
+<path d="M221,249.0 L246,249.0" class="wire-o flow-o" marker-end="url(#arrO)"/>
+<path d="M455,249.0 L480,249.0" class="wire-o flow-o" marker-end="url(#arrO)"/>
+<path d="M689,249.0 L714,249.0" class="wire-o flow-o" marker-end="url(#arrO)"/>
+<path d="M918,249.0 L943,249.0" class="wire-o flow-o" marker-end="url(#arrO)"/>
+<path d="M1132,249.0 L1157,249.0" class="wire-o flow-o" marker-end="url(#arrO)"/>
+<rect x="1425" y="70" width="129" height="300" rx="8" fill="none" stroke="#3a3a3a" stroke-width="1.4" stroke-dasharray="9 6"/>
+<text x="1554" y="64" text-anchor="end" class="footnote">DESIGNED &#8212; NOT WIRED INTO ooo_top.v</text>
+<g class="stage-dead">
+<rect x="1451.2" y="87.0" width="76.7" height="17" rx="8.5" class="chip-dead" stroke-width="1.2"/><text x="1489.5" y="99.0" text-anchor="middle" class="chip-txt-dead">NOT WIRED</text>
+<rect class="body" x="1445" y="104" width="89" height="128" rx="6"/>
+<text x="1489.5" y="122" text-anchor="middle" class="lbl-title-d">REORDER</text>
+<text x="1489.5" y="138" text-anchor="middle" class="lbl-title-d">BUFFER</text>
+<text x="1489.5" y="160.0" text-anchor="middle" class="lbl-sub-dim">ROB_SIZE = 32</text>
+<text x="1489.5" y="176.5" text-anchor="middle" class="lbl-sub-dim">circular head/tail ptrs</text>
+<text x="1489.5" y="193.0" text-anchor="middle" class="lbl-sub-dim">valid/ready/tag arrays</text>
+<text x="1489.5" y="209.5" text-anchor="middle" class="lbl-sub-dim">0 instances in ooo_top.v</text>
+</g>
+<g class="stage-dead">
+<rect x="1451.2" y="241.0" width="76.7" height="17" rx="8.5" class="chip-dead" stroke-width="1.2"/><text x="1489.5" y="253.0" text-anchor="middle" class="chip-txt-dead">NOT WIRED</text>
+<rect class="body" x="1445" y="258" width="89" height="100" rx="6"/>
+<text x="1489.5" y="278" text-anchor="middle" class="lbl-title-d">COMMIT</text>
+<text x="1489.5" y="294" text-anchor="middle" class="lbl-title-d">UNIT</text>
+<text x="1489.5" y="316.0" text-anchor="middle" class="lbl-sub-dim">commit_valid to commit_done</text>
+<text x="1489.5" y="332.5" text-anchor="middle" class="lbl-sub-dim">no ARF writeback/reclaim</text>
+</g>
+<path d="M619.0,175 C 659.0,105 1161,94 1421,134" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="3 5" marker-end="url(#arrDim)"/>
+<circle cx="619.0" cy="175" r="3.5" fill="#3a3a3a"/>
+<text x="1020.0" y="97" text-anchor="middle" class="footnote">rob_dispatch0 / rob_dispatch1 &#8212; asserted every dispatch, wire goes nowhere</text>
+<path d="M1263.5,175 C 1293.5,137 1225,220 1421,290" fill="none" stroke="#3a3a3a" stroke-width="1.3" stroke-dasharray="3 5" marker-end="url(#arrDim)"/>
+<circle cx="1263.5" cy="175" r="3.5" fill="#3a3a3a"/>
+<text x="1415" y="112" text-anchor="end" class="footnote">broadcast_valid fires correctly, never reaches commit</text>
+<path d="M549.0,323 L549.0,353 L739.0,353 L739.0,399" class="wire-dim" fill="none"/>
+<circle r="5" fill="url(#fade)">
+  <animateMotion path="M549.0,323 L549.0,353 L739.0,353 L739.0,399" dur="1.7s" repeatCount="indefinite" keyPoints="0;0.7;1" keyTimes="0;0.7;1" calcMode="linear"/>
+  <animate attributeName="opacity" values="1;1;0" keyTimes="0;0.5;0.72" dur="1.7s" repeatCount="indefinite"/>
+</circle>
+<circle cx="739.0" cy="399" r="4.5" fill="#241a00" stroke="#ffb020" stroke-width="1.3"/>
+<line x1="734.5" y1="394.5" x2="743.5" y2="403.5" stroke="#ffb020" stroke-width="1.3"/>
+<line x1="734.5" y1="403.5" x2="743.5" y2="394.5" stroke="#ffb020" stroke-width="1.3"/>
+<text x="543.0" y="345" class="footnote pulse-warn" text-anchor="start">SLOT 1 (inst1) PATH</text>
+<text x="806.0" y="373" class="footnote pulse-warn" text-anchor="start">dispatch_unit.v forwards only</text>
+<text x="806.0" y="388" class="footnote pulse-warn" text-anchor="start">opcode0/prs1_0/prs2_0/pd0 to the IQ.</text>
+<text x="806.0" y="403" class="footnote pulse-warn" text-anchor="start">inst1's fields have no output port →</text>
+<text x="806.0" y="418" class="footnote pulse-warn" text-anchor="start">entry for slot 1 is never created.</text>
+<text x="806.0" y="433" class="footnote pulse-warn" text-anchor="start">verified: issue1_valid stayed 0 for</text>
+<text x="806.0" y="448" class="footnote pulse-warn" text-anchor="start">all 20 monitored cycles.</text>
+<g class="stage-warn">
+<rect x="1187.7" y="532.0" width="76.7" height="17" rx="8.5" class="chip-warn" stroke-width="1.2"/><text x="1226.0" y="544.0" text-anchor="middle" class="chip-txt-warn">KNOWN BUG</text>
+<rect class="body" x="1091" y="549" width="270" height="150" rx="6"/>
+<text x="1226.0" y="575" text-anchor="middle" class="lbl-title-w">PHYSICAL REGFILE</text>
+<text x="1226.0" y="597.0" text-anchor="middle" class="lbl-sub">64 × 32-bit, 1 ready[] bit / reg</text>
+<text x="1226.0" y="613.5" text-anchor="middle" class="lbl-sub">ready[] SET on broadcast,</text>
+<text x="1226.0" y="630.0" text-anchor="middle" class="lbl-sub">never CLEARED on allocation</text>
+<text x="1226.0" y="646.5" text-anchor="middle" class="lbl-sub">verified: ready[32]=1 @ cyc0</text>
+<text x="1226.0" y="663.0" text-anchor="middle" class="lbl-sub">(allocated, but pre-broadcast)</text>
+</g>
+<path d="M1263.5,323 L1263.5,519" class="wire-b flow-b" marker-end="url(#arrB)"/>
+<path d="M1263.5,519 L786.5,519" class="wire-b flow-b"/>
+<text x="1052.0" y="507" text-anchor="middle" fill="#5aa9ff" font-size="10.5px" letter-spacing="1px">CDB &#8212; COMMON DATA BUS  (broadcast_valid / broadcast_tag / broadcast_value)</text>
+<path d="M786.5,519 L786.5,323" class="wire-b flow-b" marker-end="url(#arrB)"/>
+<path d="M1064.0,519 L1064.0,323" class="wire-b flow-b" marker-end="url(#arrB)"/>
+<path d="M1263.5,519 L1064.0,519" class="wire-b flow-b"/>
+<path d="M1263.5,519 L1331,519 L1331,549" class="wire-b flow-b" marker-end="url(#arrB)"/>
+<text x="786.5" y="339" text-anchor="middle" fill="#5aa9ff" font-size="9px">wakeup</text>
+<rect x="46" y="749" width="482" height="340" rx="6" class="panel-bg"/><text x="64" y="777" class="panel-hdr">LEGEND</text><line x1="64" y1="787" x2="510" y2="787" stroke="#2a2a2a" stroke-width="1"/>
+<rect x="66" y="802" width="28" height="18" rx="3" fill="#0a0a0a" stroke="#ff5a1f" stroke-width="1.6"/><text x="108" y="816" class="legend-txt">Wired + verified</text><text x="108" y="831" class="legend-txt" fill="#777" font-size="10px">confirmed via iverilog simulation run</text>
+<rect x="66" y="850" width="28" height="18" rx="3" fill="#0a0a0a" stroke="#ffb020" stroke-width="1.6"/><text x="108" y="864" class="legend-txt">Wired but bottlenecked</text><text x="108" y="879" class="legend-txt" fill="#777" font-size="10px">RTL exists; sim shows it doesn't behave as advertised</text>
+<rect x="66" y="898" width="28" height="18" rx="3" fill="#0a0a0a" stroke="#4a4a4a" stroke-width="1.6" stroke-dasharray="4 3"/><text x="108" y="912" class="legend-txt">Not instantiated</text><text x="108" y="927" class="legend-txt" fill="#777" font-size="10px">module written, zero wires into ooo_top.v</text>
+<line x1="64" y1="965" x2="510" y2="965" stroke="#2a2a2a" stroke-width="1"/>
+<text x="64" y="989" class="panel-hdr" font-size="10px">SOURCE</text>
+<text x="64" y="1008" class="legend-txt" fill="#888">github.com/devtyagi3909/riscv-ooo-core</text>
+<text x="64" y="1025" class="legend-txt" fill="#888">1 commit &#183; 100% SystemVerilog</text>
+<text x="64" y="1042" class="legend-txt" fill="#888">1st Place + Jury Award, SanDisk Hackathon</text>
+<rect x="558" y="749" width="482" height="340" rx="6" class="panel-bg"/><text x="576" y="777" class="panel-hdr">PARAMETERS · FROM RTL</text><line x1="576" y1="787" x2="1022" y2="787" stroke="#2a2a2a" stroke-width="1"/>
+<text x="578" y="811" class="legend-txt" fill="#ddd">ARCH_REGS</text>
+<text x="1020" y="811" text-anchor="end" class="legend-txt" fill="#ff9a5c">32</text>
+<text x="578" y="826" class="legend-txt" fill="#666" font-size="9.5px">rat.v</text>
+<text x="578" y="851" class="legend-txt" fill="#ddd">PHYS_REGS</text>
+<text x="1020" y="851" text-anchor="end" class="legend-txt" fill="#ff9a5c">64</text>
+<text x="578" y="866" class="legend-txt" fill="#666" font-size="9.5px">rat.v</text>
+<text x="578" y="891" class="legend-txt" fill="#ddd">ISSUEQ_SIZE</text>
+<text x="1020" y="891" text-anchor="end" class="legend-txt" fill="#ff9a5c">8</text>
+<text x="578" y="906" class="legend-txt" fill="#666" font-size="9.5px">issue_queue.v / scheduler.v</text>
+<text x="578" y="931" class="legend-txt" fill="#ddd">ROB_SIZE</text>
+<text x="1020" y="931" text-anchor="end" class="legend-txt" fill="#ff9a5c">32 (unused)</text>
+<text x="578" y="946" class="legend-txt" fill="#666" font-size="9.5px">reorder_buffer.v</text>
+<text x="578" y="971" class="legend-txt" fill="#ddd">IMEM</text>
+<text x="1020" y="971" text-anchor="end" class="legend-txt" fill="#ff9a5c">256 × 32-bit words</text>
+<text x="578" y="986" class="legend-txt" fill="#666" font-size="9.5px">fetch_unit.v</text>
+<line x1="576" y1="1003" x2="1022" y2="1003" stroke="#2a2a2a" stroke-width="1"/>
+<text x="578" y="1025" class="legend-txt" fill="#ddd">14 opcodes decoded</text>
+<text x="578" y="1042" class="legend-txt" fill="#888" font-size="10px">ADD SUB AND OR XOR SLT SLL SRL SRA</text>
+<text x="578" y="1057" class="legend-txt" fill="#888" font-size="10px">ADDI SLTI ANDI ORI XORI</text>
+<text x="578" y="1079" class="legend-txt" fill="#ffb020" font-size="10px">not yet decoded: branches, loads/stores,</text>
+<text x="578" y="1094" class="legend-txt" fill="#ffb020" font-size="10px">LUI / AUIPC / JAL / JALR</text>
+<rect x="1070" y="749" width="482" height="340" rx="6" class="panel-bg"/><text x="1088" y="777" class="panel-hdr">VERIFIED IN SIMULATION</text><line x1="1088" y1="787" x2="1534" y2="787" stroke="#2a2a2a" stroke-width="1"/>
+<circle cx="1500" cy="769" r="4" fill="#ff5f56"/>
+<circle cx="1514" cy="769" r="4" fill="#ffbd2e"/>
+<circle cx="1528" cy="769" r="4" fill="#27c93f"/>
+<text x="1088" y="805" class="term-txt-dim" xml:space="preserve">$ iverilog -g2012 -o sim/cpu_sim rtl/*.v tb/cpu_tb.v</text>
+<text x="1088" y="822.5" class="term-txt-dim" xml:space="preserve">$ vvp sim/cpu_sim</text>
+<text x="1088" y="840.0" class="term-txt" xml:space="preserve">PASS: cpu_tb directed verification completed</text>
+<text x="1088" y="857.5" class="term-txt" xml:space="preserve">      with no errors.</text>
+<text x="1088" y="875.0" class="term-txt-dim" xml:space="preserve"> </text>
+<text x="1088" y="892.5" class="term-txt-dim" xml:space="preserve">--- 20-cycle monitor, added for this diagram ---</text>
+<text x="1088" y="910.0" class="term-txt-warn" xml:space="preserve">issue1_valid : 0 for all 20 cycles observed</text>
+<text x="1088" y="927.5" class="term-txt-warn" xml:space="preserve">ready[32]    : 1 at cycle 0 (allocated that</text>
+<text x="1088" y="945.0" class="term-txt-warn" xml:space="preserve">               same cycle -- pre-broadcast)</text>
+<text x="1088" y="962.5" class="term-txt-warn" xml:space="preserve">broadcast_val: x at cycle 3 (a dependency on</text>
+<text x="1088" y="980.0" class="term-txt-warn" xml:space="preserve">               the dropped slot-1 result never</text>
+<text x="1088" y="997.5" class="term-txt-warn" xml:space="preserve">               resolves)</text>
+</svg>
