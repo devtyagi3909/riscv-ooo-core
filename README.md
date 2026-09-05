@@ -31,7 +31,7 @@ The front-end has been verified in simulation with directed self-checking testbe
 
 ## Architecture
 
-![Architecture Diagram](assets/architecture.svg)
+![Architecture Diagram](assets/architecture.svg?v=2)
 
 ---
 
