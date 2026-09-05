@@ -31,34 +31,53 @@ The front-end has been verified in simulation with directed self-checking testbe
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                       RV32I OoO Superscalar Core                    │
-│                                                                     │
-│  ┌──────────────┐   ┌──────────────┐   ┌──────────────────────────┐ │
-│  │  2-Wide Fetch │──>│  2-Wide      │──>│  Register Alias Table    │ │
-│  │  PC + IMEM   │   │  Decode      │   │  32 arch → 64 phys regs  │ │
-│  └──────────────┘   └──────────────┘   └──────────────┬───────────┘ │
-│                                                       │             │
-│  ┌────────────────────────────────────────────────────▼───────────┐ │
-│  │               Superscalar Dispatcher                           │ │
-│  │   RAW hazard scoreboarding · dual-slot issue queue allocation  │ │
-│  └──────────────────────┬──────────────────────────────┬──────────┘ │
-│                         │                              │            │
-│              ┌──────────▼──────┐              ┌────────▼────────┐   │
-│              │  Execution Unit │              │  Execution Unit  │  │
-│              │  (ALU slot 0)   │              │  (ALU slot 1)    │  │
-│              └──────────┬──────┘              └────────┬────────┘   │
-│                         │                              │            │
-│              ┌──────────▼──────────────────────────────▼──────────┐ │
-│              │           Common Data Bus (CDB) Broadcast           │ │
-│              └──────────────────────────┬───────────────────────┘  │
-│                                         │                           │
-│              ┌──────────────────────────▼───────────────────────┐   │
-│              │    Reorder Buffer (ROB) · In-Order Commit        │   │
-│              │              [ in active development ]            │   │
-│              └──────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    %% Styling definitions for a sleek, dark aesthetic
+    classDef frontEnd fill:#2d3748,stroke:#4a5568,stroke-width:2px,color:#fff
+    classDef backEnd fill:#1a365d,stroke:#2b6cb0,stroke-width:2px,color:#fff
+    classDef mem fill:#742a2a,stroke:#c53030,stroke-width:2px,color:#fff
+    classDef bus fill:#b7791f,stroke:#d69e2e,stroke-width:2px,color:#fff
+    
+    subgraph FrontEnd ["Front-End (In-Order)"]
+        direction LR
+        Fetch["2-Wide Fetch<br/>(PC + IMEM)"]:::frontEnd
+        Decode["2-Wide Decode<br/>(RV32I)"]:::frontEnd
+        RAT["Register Alias Table (RAT)<br/>32 Arch → 64 Phys Regs"]:::frontEnd
+        
+        Fetch ==> Decode
+        Decode ==> RAT
+    end
+    
+    subgraph DispatchQueue ["Out-of-Order Dispatch"]
+        direction TB
+        Scoreboard["Superscalar Dispatcher<br/>RAW Hazard Scoreboarding"]:::frontEnd
+        IQ["Dual-Slot Issue Queue"]:::frontEnd
+        Scoreboard --> IQ
+    end
+    
+    RAT ==> Scoreboard
+    
+    subgraph BackEnd ["Execution & Commit (Out-of-Order)"]
+        direction TB
+        ALU0["Execution Unit 0<br/>(ALU)"]:::backEnd
+        ALU1["Execution Unit 1<br/>(ALU)"]:::backEnd
+        
+        CDB{{"Common Data Bus (CDB)<br/>Broadcast & Wakeup"}}:::bus
+        
+        ROB["Reorder Buffer (ROB)<br/>In-Order Commit (WIP)"]:::mem
+        
+        ALU0 ==> CDB
+        ALU1 ==> CDB
+        CDB ==> ROB
+    end
+    
+    IQ -->|Issue 0| ALU0
+    IQ -->|Issue 1| ALU1
+    
+    %% Feedback loops
+    CDB -.->|Wakeup / Result Bypass| Scoreboard
+    ROB -.->|Retire / Free Phys Reg| RAT
 ```
 
 ---
