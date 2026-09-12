@@ -31,7 +31,79 @@ The front-end has been verified in simulation with directed self-checking testbe
 
 ## Architecture
 
-![Architecture Diagram](assets/architecture.svg?v=8)
+```mermaid
+flowchart LR
+    classDef fetch fill:#1e40af,stroke:#1e3a8a,stroke-width:2px,color:#fff
+    classDef decode fill:#0369a1,stroke:#0284c7,stroke-width:2px,color:#fff
+    classDef rename fill:#15803d,stroke:#14532d,stroke-width:2px,color:#fff
+    classDef issue fill:#b45309,stroke:#92400e,stroke-width:2px,color:#fff
+    classDef execute fill:#c2410c,stroke:#9a3412,stroke-width:2px,color:#fff
+    classDef memory fill:#475569,stroke:#334155,stroke-width:2px,color:#fff
+    classDef cdb fill:#6d28d9,stroke:#5b21b6,stroke-width:2px,color:#fff
+    classDef unwired fill:#1f2937,stroke:#111827,stroke-width:2px,color:#6b7280
+
+    %% CVA6-Style 6-Stage Pipeline Layout
+    subgraph PC_GEN [1. PC Gen]
+        direction TB
+        PC[PC + 8 / Cycle]:::fetch
+    end
+
+    subgraph FETCH [2. Fetch]
+        direction TB
+        IMEM[(Instruction Memory<br>256x32b)]:::memory
+        F_Unit[Dual-Issue Fetch]:::fetch
+    end
+
+    subgraph DECODE [3. Decode]
+        direction TB
+        D_Unit0[Decoder 0]:::decode
+        D_Unit1[Decoder 1]:::decode
+    end
+
+    subgraph ISSUE [4. Issue & Rename]
+        direction TB
+        RAT[Register Alias Table<br>32 Arch ➔ 64 Phys]:::rename
+        FreeList[(Free List)]:::memory
+        IQ[Issue Queue<br>8-Entry Scoreboard]:::issue
+        Sched[Scheduler<br>Oldest-Ready Select]:::issue
+    end
+
+    subgraph EXECUTE [5. Execute]
+        direction TB
+        ALU[Shared ALU<br>Slot 0 Priority]:::execute
+        PRF[(Physical Reg File<br>64x32b)]:::memory
+        CDB((Common Data Bus)):::cdb
+    end
+
+    subgraph COMMIT [6. Commit]
+        direction TB
+        ROB[Reorder Buffer<br>32-Entry]:::unwired
+        C_Unit[Commit Unit]:::unwired
+    end
+
+    %% Connections
+    PC --> IMEM
+    IMEM --> F_Unit
+    F_Unit -->|Inst 0| D_Unit0
+    F_Unit -->|Inst 1| D_Unit1
+    
+    D_Unit0 --> RAT
+    D_Unit1 --> RAT
+    RAT <--> FreeList
+    
+    RAT --> IQ
+    IQ <--> Sched
+    Sched --> ALU
+    
+    ALU --> CDB
+    CDB --> PRF
+    CDB --> IQ
+    
+    RAT -. Allocate .-> ROB
+    CDB -. Tag/Data .-> ROB
+    ROB -.-> C_Unit
+    C_Unit -. Reclaim .-> FreeList
+```
 
 ---
 
