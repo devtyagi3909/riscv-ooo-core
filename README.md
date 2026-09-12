@@ -33,62 +33,62 @@ The front-end has been verified in simulation with directed self-checking testbe
 
 ### Dynamic Execution Flow (Animated)
 <p align="center">
-  <img src="assets/architecture.svg?v=8" alt="Animated Architecture Diagram" width="100%"/>
+  <img src="assets/architecture.svg" alt="Animated Architecture Diagram" width="100%"/>
 </p>
 
 ### Pipeline Block Diagram
 ```mermaid
 flowchart LR
-    classDef fetch fill:#1e40af,stroke:#1e3a8a,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef decode fill:#0369a1,stroke:#0284c7,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef rename fill:#15803d,stroke:#14532d,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef issue fill:#b45309,stroke:#92400e,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef execute fill:#c2410c,stroke:#9a3412,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef memory fill:#475569,stroke:#334155,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef cdb fill:#6d28d9,stroke:#5b21b6,stroke-width:2px,color:#fff,rx:4px,ry:4px
-    classDef unwired fill:#1f2937,stroke:#111827,stroke-width:2px,color:#9ca3af,rx:4px,ry:4px,stroke-dasharray: 5 5
+    classDef fetch fill:#1e40af,stroke:#1e3a8a,stroke-width:2px,color:#fff
+    classDef decode fill:#0369a1,stroke:#0284c7,stroke-width:2px,color:#fff
+    classDef rename fill:#15803d,stroke:#14532d,stroke-width:2px,color:#fff
+    classDef issue fill:#b45309,stroke:#92400e,stroke-width:2px,color:#fff
+    classDef execute fill:#c2410c,stroke:#9a3412,stroke-width:2px,color:#fff
+    classDef memory fill:#475569,stroke:#334155,stroke-width:2px,color:#fff
+    classDef cdb fill:#6d28d9,stroke:#5b21b6,stroke-width:2px,color:#fff
+    classDef unwired fill:#1f2937,stroke:#111827,stroke-width:2px,color:#9ca3af,stroke-dasharray: 5 5
 
     %% Pipeline Stages
     subgraph PC_GEN [1. PC Gen]
         direction TB
-        PC[PC Logic<br>Next PC + 8]:::fetch
+        PC(PC Logic<br>Next PC + 8):::fetch
     end
 
     subgraph FETCH [2. Fetch]
         direction TB
         IMEM[(Instruction Memory<br>256x32b)]:::memory
-        F_Unit[Dual-Issue Fetch<br>Reads 2 Inst/Cycle]:::fetch
+        F_Unit(Dual-Issue Fetch<br>Reads 2 Inst/Cycle):::fetch
     end
 
     subgraph DECODE [3. Decode]
         direction TB
-        D_Unit0[Decoder 0<br>Inst 0]:::decode
-        D_Unit1[Decoder 1<br>Inst 1]:::decode
+        D_Unit0(Decoder 0<br>Inst 0):::decode
+        D_Unit1(Decoder 1<br>Inst 1):::decode
     end
 
     subgraph RENAME [4. Rename & Dispatch]
         direction TB
-        RAT[Register Alias Table<br>32 Arch ➔ 64 Phys]:::rename
+        RAT(Register Alias Table<br>32 Arch ➔ 64 Phys):::rename
         FreeList[(Free List)]:::memory
     end
 
     subgraph ISSUE [5. Issue]
         direction TB
-        IQ[Issue Queue<br>8-Entry Scoreboard]:::issue
-        Sched[Scheduler<br>Oldest-Ready Select]:::issue
+        IQ(Issue Queue<br>8-Entry Scoreboard):::issue
+        Sched(Scheduler<br>Oldest-Ready Select):::issue
     end
 
     subgraph EXECUTE [6. Execute & Writeback]
         direction TB
         PRF[(Physical Reg File<br>64x32b)]:::memory
-        ALU[Shared ALU<br>Slot 0 Priority]:::execute
+        ALU(Shared ALU<br>Slot 0 Priority):::execute
         CDB((Common Data Bus)):::cdb
     end
 
     subgraph COMMIT [7. Commit]
         direction TB
-        ROB[Reorder Buffer<br>32-Entry In-Order Commit]:::unwired
-        C_Unit[Commit Unit<br>Retires Arch State]:::unwired
+        ROB(Reorder Buffer<br>32-Entry In-Order Commit):::unwired
+        C_Unit(Commit Unit<br>Retires Arch State):::unwired
     end
 
     %% Flow Connections
