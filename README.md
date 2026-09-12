@@ -31,7 +31,7 @@ The front-end has been verified in simulation with directed self-checking testbe
 
 ## Architecture
 
-### Dynamic Execution flo
+### Execution flo
 <p align="center">
   <img src="assets/architecture.svg" alt="Animated Architecture Diagram" width="100%"/>
 </p>
